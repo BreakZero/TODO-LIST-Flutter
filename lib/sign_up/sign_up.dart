@@ -81,7 +81,7 @@ class _SignUpState extends State<SignUpScreen> {
                   text: "Have an account?",
                   style: TextStyle(color: Colors.black)),
               TextSpan(
-                  text: "Sign up",
+                  text: "Sign in",
                   style: TextStyle(color: Colors.blue),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
