@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:todo_list/database/database_manager.dart';
+import 'package:todo_list/database/tables.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -67,6 +69,7 @@ class _SignUpState extends State<SignUpScreen> {
             ),
             FilledButton(
               onPressed: () {
+                insert();
                 print("${emailController.text}----${passwordController.text}");
               },
               style: FilledButton.styleFrom(minimumSize: Size.fromHeight(48)),
@@ -95,5 +98,10 @@ class _SignUpState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  void insert() {
+    DatabaseManager.get().insertUser(UserEntity(uid: 0, fullName: "Dougie", email: "527916588@qq.com", createAt: DateTime.now().microsecondsSinceEpoch))
+    .onError((error, stackTrace) => print(error.toString()));
   }
 }

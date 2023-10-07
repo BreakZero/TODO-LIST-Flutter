@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/sign_up/sign_up.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -47,6 +48,7 @@ class _SignInState extends State<SignInScreen> {
             FilledButton(
               onPressed: () {
                 print("${emailController.text}----${passwordController.text}");
+                printLocalUser();
               },
               style: FilledButton.styleFrom(minimumSize: Size.fromHeight(48)),
               child: const Text('SIGN IN'),
@@ -57,7 +59,7 @@ class _SignInState extends State<SignInScreen> {
             RichText(
                 text: TextSpan(children: [
               TextSpan(
-                  text: "Don't have an account?",
+                  text: "Don't have an account? ",
                   style: TextStyle(color: Colors.black)),
               TextSpan(
                   text: "Sign up",
@@ -77,5 +79,15 @@ class _SignInState extends State<SignInScreen> {
         ),
       ),
     );
+  }
+
+  void printLocalUser() {
+    DatabaseManager.get().currentUser().then((value) => {
+      if (value == null) {
+        print("get null user")
+      } else {
+        print(value.toString())
+      }
+    });
   }
 }
