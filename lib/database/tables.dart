@@ -1,7 +1,5 @@
 // ignore_for_file: constant_identifier_names
 
-import 'dart:ffi';
-
 class UserEntity {
   static const table_name = "tb_local_user";
   static const col_uid = "_uid";
@@ -44,14 +42,22 @@ class UserEntity {
 }
 
 class TaskEntity {
-  final Long id;
+  static const table_name = "tb_task";
+  static const col_id = "_id";
+  static const col_title = "title";
+  static const col_description = "description";
+  static const col_deadline = "deadline";
+  static const col_create_at = "create_at";
+  static const col_attachment_path = "attachment_path";
+
+  final int id;
   final String title;
   final String description;
-  final Long deadline;
-  final Long createAt;
+  final int deadline;
+  final int createAt;
   final String? attachmentPath;
 
-  const TaskEntity({
+  TaskEntity({
     required this.id,
     required this.title,
     required this.description,
@@ -59,4 +65,24 @@ class TaskEntity {
     required this.deadline,
     this.attachmentPath
   });
+
+  TaskEntity.fromMap(Map<String, dynamic> map): this(
+    id: int.parse(map[col_id]),
+    title: map[col_title],
+    description: map[col_description],
+    createAt: map[col_create_at],
+    deadline: map[col_deadline],
+    attachmentPath: map[col_attachment_path]
+  );
+
+  Map<String, dynamic> toMap() {
+    return {
+      col_id: id,
+      col_title: title,
+      col_description: description,
+      col_create_at: createAt,
+      col_deadline: deadline,
+      col_attachment_path: attachmentPath
+    };
+  }
 }

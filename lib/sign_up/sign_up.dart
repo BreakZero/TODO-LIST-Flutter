@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
+import 'package:todo_list/main.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -69,8 +70,17 @@ class _SignUpState extends State<SignUpScreen> {
             ),
             FilledButton(
               onPressed: () {
-                insert();
-                print("${emailController.text}----${passwordController.text}");
+                var user = UserEntity(
+                    uid: 0,
+                    fullName: "Dougie",
+                    email: "527916588@qq.com",
+                    createAt: DateTime.now().microsecondsSinceEpoch);
+                insert(user);
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TaskEntryScreen(user: user)),
+                    (route) => false);
               },
               style: FilledButton.styleFrom(minimumSize: Size.fromHeight(48)),
               child: const Text('SIGN UP'),
@@ -100,8 +110,9 @@ class _SignUpState extends State<SignUpScreen> {
     );
   }
 
-  void insert() {
-    DatabaseManager.get().insertUser(UserEntity(uid: 0, fullName: "Dougie", email: "527916588@qq.com", createAt: DateTime.now().microsecondsSinceEpoch))
-    .onError((error, stackTrace) => print(error.toString()));
+  void insert(UserEntity user) {
+    DatabaseManager.get()
+        .insertUser(user)
+        .onError((error, stackTrace) => print(error.toString()));
   }
 }

@@ -1,27 +1,44 @@
-import 'package:english_words/english_words.dart';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:todo_list/database/database_manager.dart';
+import 'package:todo_list/database/tables.dart';
 import 'package:todo_list/sign_in/sign_in.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MainApp());
 }
 
-class MainState extends ChangeNotifier {
-  var current = WordPair.random();
-
-  void next() {
-    current = WordPair.random();
-    notifyListeners();
+class MainApp extends StatefulWidget {
+  const MainApp({super.key});
+  
+  @override
+  State<StatefulWidget> createState() {
+    return _MainState();
   }
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class _MainState extends State<MainApp> {
+
+  UserEntity? user;
+  @override
+  void initState() {
+    super.initState();
+    DatabaseManager.get().currentUser().then((value) => {
+      print(value.toString()),
+      setState(() {
+        user = value;
+      })
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    Widget homeWidget;
+    if (user != null) {
+      homeWidget = TaskEntryScreen(user: user!);
+    } else {
+      homeWidget = SignInScreen();
+    }
     return MaterialApp(
       title: 'Namer App',
       debugShowCheckedModeBanner: false,
@@ -29,29 +46,18 @@ class MainApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
       ),
-      home: SignInScreen()
+      home: homeWidget
     );
   }
 }
 
-class EntryScreen extends StatelessWidget {
+@immutable
+class TaskEntryScreen extends StatelessWidget {
+  final UserEntity user;
+  TaskEntryScreen({super.key, required this.user});
+
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MainState>();
-
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("A random idea.."),
-          Text(appState.current.asLowerCase),
-          ElevatedButton(
-              onPressed: () {
-                appState.next();
-              },
-              child: Text("Next"))
-        ],
-      ),
-    );
+    return Center(child: Text(user.fullName),);
   }
 }
