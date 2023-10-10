@@ -82,7 +82,7 @@ class _SignInState extends State<SignInScreen> {
   }
 
   void printLocalUser() {
-    DatabaseManager.get().currentUser().then((value) => {
+    DatabaseManager.get().userDao.currentUser().then((value) => {
       if (value == null) {
         print("get null user")
       } else {

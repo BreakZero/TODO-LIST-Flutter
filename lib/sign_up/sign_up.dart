@@ -111,7 +111,7 @@ class _SignUpState extends State<SignUpScreen> {
   }
 
   void insert(UserEntity user) {
-    DatabaseManager.get()
+    DatabaseManager.get().userDao
         .insertUser(user)
         .onError((error, stackTrace) => print(error.toString()));
   }

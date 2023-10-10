@@ -3,8 +3,9 @@ import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
 import 'package:todo_list/sign_in/sign_in.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseManager.get().init();
   runApp(const MainApp());
 }
 
@@ -23,7 +24,7 @@ class _MainState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
-    DatabaseManager.get().currentUser().then((value) => {
+    DatabaseManager.get().userDao.currentUser().then((value) => {
       print(value.toString()),
       setState(() {
         user = value;

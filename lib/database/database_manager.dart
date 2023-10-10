@@ -1,16 +1,20 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:todo_list/database/tables.dart';
+
+import 'task_dao.dart';
+import 'user_dao.dart';
 
 class DatabaseManager {
+  static const _databaseName = "todo_list.db";
+  static const _databaseVersion = 1;
+
   static final DatabaseManager _databaseManager = DatabaseManager._internal();
 
   DatabaseManager._internal();
+  Database? _database;
 
-  static const _databaseName = "todo_list.db";
-  static const _databaseVersion = 1;
-  late Database database;
-  bool didInit = false;
+  late UserDao userDao;
+  late TaskDao taskDao;
 
   static DatabaseManager get() {
     return _databaseManager;
@@ -18,17 +22,14 @@ class DatabaseManager {
 
   Future init() async {
     final path = join(await getDatabasesPath(), _databaseName);
-    database = await openDatabase(
+    final db = await openDatabase(
       path,
       version: _databaseVersion,
       onCreate: _onCreate,
     );
-    didInit = true;
-  }
-
-  Future<Database> _getDatabase() async {
-    if(!didInit) await init();
-    return database;
+    userDao = UserDao(db);
+    taskDao = TaskDao(db);
+    _database = db;
   }
 
   Future _onCreate(Database db, int version) async {
@@ -44,17 +45,7 @@ class DatabaseManager {
     );
   }
 
-  Future insertUser(UserEntity user) async {
-    var db = await _getDatabase();
-    db.transaction((txn) async => {
-      await txn.insert(UserEntity.table_name, user.toMap())
-    });
-  }
-
-  Future<UserEntity?> currentUser() async {
-    var db = await _getDatabase();
-    var result = await db.rawQuery("SELECT * FROM tb_local_user;");
-    if(result.isEmpty)return null;
-    return UserEntity.fromMap(result.first);
+  void close() {
+    _database?.close();
   }
 }
