@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:todo_list/database/database_manager.dart';
-import 'package:todo_list/sign_up/sign_up.dart';
+import 'package:todo_list/feature/sign_up/sign_up.dart';
 
 class SignInScreen extends StatefulWidget {
   @override

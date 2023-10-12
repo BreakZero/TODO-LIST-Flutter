@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
-import 'package:todo_list/sign_in/sign_in.dart';
+import 'package:todo_list/feature/home/home.dart';
+import 'package:todo_list/feature/sign_in/sign_in.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +37,7 @@ class _MainState extends State<MainApp> {
   Widget build(BuildContext context) {
     Widget homeWidget;
     if (user != null) {
-      homeWidget = TaskEntryScreen(user: user!);
+      homeWidget = HomeScreen();
     } else {
       homeWidget = SignInScreen();
     }
