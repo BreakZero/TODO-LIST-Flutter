@@ -5,6 +5,8 @@ import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
 import 'package:todo_list/main.dart';
 
+import '../home/home.dart';
+
 class SignUpScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -70,17 +72,23 @@ class _SignUpState extends State<SignUpScreen> {
             ),
             FilledButton(
               onPressed: () {
-                var user = UserEntity(
-                    uid: 0,
-                    fullName: "Dougie",
-                    email: "527916588@qq.com",
-                    createAt: DateTime.now().microsecondsSinceEpoch);
-                insert(user);
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TaskEntryScreen(user: user)),
-                    (route) => false);
+                var errorMsg = formValidator();
+                if (errorMsg == null) {
+                  var user = UserEntity(
+                      uid: 0,
+                      fullName: fullnameController.text,
+                      email: emailController.text,
+                      createAt: DateTime.now().microsecondsSinceEpoch);
+                  insert(user);
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomeScreen()),
+                      (route) => false);
+                } else {
+                  final snackBar = SnackBar(content: Text(errorMsg));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
               },
               style: FilledButton.styleFrom(minimumSize: Size.fromHeight(48)),
               child: const Text('SIGN UP'),
@@ -111,8 +119,23 @@ class _SignUpState extends State<SignUpScreen> {
   }
 
   void insert(UserEntity user) {
-    DatabaseManager.get().userDao
+    DatabaseManager.get()
+        .userDao
         .insertUser(user)
         .onError((error, stackTrace) => print(error.toString()));
+  }
+
+  String? formValidator() {
+    String? errorMsg;
+    if (emailController.text.isEmpty) {
+      errorMsg = "email can not be null";
+    } else if (fullnameController.text.isEmpty) {
+      errorMsg = "full name can not be null";
+    } else if (passwordController.text.isEmpty) {
+      errorMsg = "password can not be null";
+    } else if (passwordController.text != confirmPassController.text) {
+      errorMsg = "password is not match";
+    }
+    return errorMsg;
   }
 }
