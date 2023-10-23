@@ -14,6 +14,11 @@ class TaskDao {
   }
 
   Future<List<TaskEntity>> allTasks() async {
+    var result = await _db.rawQuery("SELECT * FROM tb_task;");
+    if (result.isNotEmpty) {
+      var tasks = result.map((e) => TaskEntity.fromMap(e)).toList();
+      return tasks;
+    }
     return List.empty();
   }
 }

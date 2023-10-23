@@ -6,7 +6,7 @@ import 'user_dao.dart';
 
 class DatabaseManager {
   static const _databaseName = "todo_list.db";
-  static const _databaseVersion = 1;
+  static const _databaseVersion = 3;
 
   static final DatabaseManager _databaseManager = DatabaseManager._internal();
 
@@ -26,6 +26,7 @@ class DatabaseManager {
       path,
       version: _databaseVersion,
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade
     );
     userDao = UserDao(db);
     taskDao = TaskDao(db);
@@ -36,13 +37,30 @@ class DatabaseManager {
     db.execute(
       """
       CREATE TABLE tb_local_user(
-        _uid TEXT PRIMARY KEY NOT NULL,
+        _uid INTEGER PRIMARY KEY AUTOINCREMENT,
         full_name TEXT NOT NULL,
         email TEXT NOT NULL,
         create_at INTEGER NOT NULL
       );
       """
     );
+    db.execute(
+      """
+      CREATE TABLE tb_task(
+        _id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        description TEXT NOT NULL,
+        deadline INTEGER NOT NULL,
+        create_at INTEGER NOT NULL,
+        attachment_path TEXT
+      );
+      """
+    );
+  }
+
+  void _onUpgrade(Database db, int oldVersion, int newVersion) {
+    print("old version === $oldVersion");
+    print("new version === $newVersion");
   }
 
   void close() {

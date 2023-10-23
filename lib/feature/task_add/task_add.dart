@@ -1,4 +1,10 @@
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_list/database/database_manager.dart';
+import 'package:todo_list/database/tables.dart';
 
 class AddTaskScreen extends StatefulWidget {
   @override
@@ -10,6 +16,23 @@ class AddTaskScreen extends StatefulWidget {
 class _AddTaskState extends State<AddTaskScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
+  TextEditingController deadlineController = TextEditingController();
+
+  final ImagePicker _imagePicker = ImagePicker();
+
+  late Widget image;
+  File? _image;
+
+  Future getImageFromGallery() async {
+    final pickedFile =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -18,6 +41,24 @@ class _AddTaskState extends State<AddTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_image != null) {
+      image = InkWell(
+        onTap: () {
+          getImageFromGallery();
+        },
+        child: Image.file(_image!),
+      );
+    } else {
+      image = Center(
+        child: IconButton(
+          onPressed: () {
+            getImageFromGallery();
+          },
+          icon: Icon(Icons.camera_alt),
+          iconSize: 100,
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Task"),
@@ -48,27 +89,76 @@ class _AddTaskState extends State<AddTaskScreen> {
               height: 8.0,
             ),
             TextField(
+              controller: deadlineController,
               decoration: InputDecoration(
-                  enabled: false,
-                  suffixIcon: Icon(
-                    Icons.calendar_month,
-                  ),
+                  enabled: true,
+                  suffixIcon: IconButton(
+                      onPressed: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime.utc(2033));
+                        if (pickedDate != null) {
+                          String date = DateFormat.yMd().format(pickedDate);
+                          setState(() {
+                            deadlineController.text = date;
+                          });
+                        }
+                      },
+                      icon: Icon(
+                        Icons.calendar_month,
+                      )),
                   border: OutlineInputBorder()),
             ),
-            Expanded(
-              child: IconButton(onPressed: null, icon: Icon(Icons.camera_alt), iconSize: 100,),
+            SizedBox(
+              height: 8.0,
             ),
+            Expanded(child: image),
             SizedBox(
               height: 8.0,
             ),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     minimumSize: Size.fromHeight(48.0)),
-                onPressed: null,
+                onPressed: () {
+                  String? errorMsg = formValidator();
+                  if (errorMsg == null) {
+                    save();
+                    Navigator.pop(context);
+                  } else {
+                    final snackBar = SnackBar(content: Text(errorMsg));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                },
                 child: Text("ADD TODO"))
           ],
         ),
       ),
     );
+  }
+
+  String? formValidator() {
+    String? errorMsg;
+    if (titleController.text.isEmpty) {
+      errorMsg = "title can not be null";
+    } else if (descController.text.isEmpty) {
+      errorMsg = "description can not be null";
+    } else if (deadlineController.text.isEmpty) {
+      errorMsg = "please choose the deadline";
+    }
+    return errorMsg;
+  }
+
+  void save() async {
+    final task = TaskEntity(
+        id: null,
+        title: titleController.text,
+        description: descController.text,
+        createAt: DateTime.now().microsecond,
+        deadline: DateTime.now().microsecond,
+        attachmentPath: _image?.path);
+        print(task.toString());
+    DatabaseManager.get().taskDao.insertTask(task);
   }
 }

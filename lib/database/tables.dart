@@ -7,7 +7,7 @@ class UserEntity {
   static const col_email = "email";
   static const col_create_at = "create_at";
 
-  final int uid;
+  final int? uid;
   final String fullName;
   final String email;
   final int createAt;
@@ -20,7 +20,7 @@ class UserEntity {
   });
 
   UserEntity.fromMap(Map<String, dynamic> map): this(
-    uid: int.parse(map[col_uid]),
+    uid: map[col_uid],
     fullName: map[col_fullname],
     email: map[col_email],
     createAt: map[col_create_at]
@@ -50,7 +50,7 @@ class TaskEntity {
   static const col_create_at = "create_at";
   static const col_attachment_path = "attachment_path";
 
-  final int id;
+  final int? id;
   final String title;
   final String description;
   final int deadline;
@@ -67,7 +67,7 @@ class TaskEntity {
   });
 
   TaskEntity.fromMap(Map<String, dynamic> map): this(
-    id: int.parse(map[col_id]),
+    id: map[col_id],
     title: map[col_title],
     description: map[col_description],
     createAt: map[col_create_at],
@@ -84,5 +84,10 @@ class TaskEntity {
       col_deadline: deadline,
       col_attachment_path: attachmentPath
     };
+  }
+
+  @override
+  String toString() {
+    return "{title: $title, description: $description, deadline: $deadline, attachment_path: $attachmentPath}";
   }
 }
