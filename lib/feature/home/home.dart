@@ -3,6 +3,7 @@ import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
 import 'package:todo_list/feature/settings/settings.dart';
 import 'package:todo_list/feature/task_add/task_add.dart';
+import 'package:todo_list/feature/task_detail/task_detail.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -71,27 +72,32 @@ class _TaskItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(task.title),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(task.description),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(task.createAt.toString()),
-              ),
-            ],
+    return GestureDetector(
+      onTap: () => {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TaskDetailScreen(task_id: task.id,)))
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(task.title),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(task.description),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(task.createAt.toString()),
+                ),
+              ],
+            ),
           ),
         ),
       ),
