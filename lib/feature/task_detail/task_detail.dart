@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
@@ -21,15 +23,29 @@ class TaskDetailScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
             final task = snapshot.data as TaskEntity;
-            return Center(child: Text(task.title));
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(task.title, style: TextStyle(fontSize:28)),
+                  Text(task.description),
+                  SizedBox(height: 8.0,),
+                  task.attachmentPath != null ? Image.file(File(task.attachmentPath!)) : Spacer()
+                ],
+              ),
+            );
           } else {
-            return Text("Error...");
+            return Center(child: Text("Error..."),);
           }
         } else {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator(),);
         }
       });
 
-    return content;
+    return Scaffold(
+      appBar: AppBar(title: Text("Task Detail"), centerTitle: false,),
+      body: content,
+    );
   }
 }
