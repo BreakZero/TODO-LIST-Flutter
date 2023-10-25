@@ -100,6 +100,7 @@ class _AddTaskState extends State<AddTaskScreen> {
                             firstDate: DateTime.now(),
                             lastDate: DateTime.utc(2033));
                         if (pickedDate != null) {
+
                           String date = DateFormat.yMd().format(pickedDate);
                           setState(() {
                             deadlineController.text = date;

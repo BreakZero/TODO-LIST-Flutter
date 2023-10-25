@@ -43,7 +43,9 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: null,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(48)),
                     child: Text("LOG OUT"),
