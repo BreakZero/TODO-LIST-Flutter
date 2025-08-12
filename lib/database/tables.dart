@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:todo_list/database/task_status.dart';
+
 class UserEntity {
   static const table_name = "tb_local_user";
   static const col_uid = "_uid";
@@ -49,6 +51,7 @@ class TaskEntity {
   static const col_deadline = "deadline";
   static const col_create_at = "create_at";
   static const col_attachment_path = "attachment_path";
+  static const col_status = "status";
 
   final int? id;
   final String title;
@@ -56,6 +59,7 @@ class TaskEntity {
   final int deadline;
   final int createAt;
   final String? attachmentPath;
+  final int status; 
 
   TaskEntity({
     required this.id,
@@ -63,7 +67,8 @@ class TaskEntity {
     required this.description,
     required this.createAt,
     required this.deadline,
-    this.attachmentPath
+    this.attachmentPath,
+    this.status = TaskStatus.notStarted,
   });
 
   TaskEntity.fromMap(Map<String, dynamic> map): this(
@@ -72,7 +77,8 @@ class TaskEntity {
     description: map[col_description],
     createAt: map[col_create_at],
     deadline: map[col_deadline],
-    attachmentPath: map[col_attachment_path]
+    attachmentPath: map[col_attachment_path],
+    status: map[col_status] ?? TaskStatus.notStarted,
   );
 
   Map<String, dynamic> toMap() {
@@ -82,12 +88,13 @@ class TaskEntity {
       col_description: description,
       col_create_at: createAt,
       col_deadline: deadline,
-      col_attachment_path: attachmentPath
+      col_attachment_path: attachmentPath,
+      col_status: status
     };
   }
 
   @override
   String toString() {
-    return "{title: $title, description: $description, deadline: $deadline, attachment_path: $attachmentPath}";
+    return "{title: $title, description: $description, deadline: $deadline, attachment_path: $attachmentPath}, status: $status";
   }
 }

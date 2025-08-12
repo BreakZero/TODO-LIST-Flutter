@@ -17,6 +17,7 @@ class TaskDao {
     var result = await _db.rawQuery("SELECT * FROM tb_task;");
     if (result.isNotEmpty) {
       var tasks = result.map((e) => TaskEntity.fromMap(e)).toList();
+      print(tasks);
       return tasks;
     }
     return List.empty();

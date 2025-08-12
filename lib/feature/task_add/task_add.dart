@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -22,6 +23,7 @@ class _AddTaskState extends State<AddTaskScreen> {
 
   late Widget image;
   File? _image;
+  DateTime? _deadline;
 
   Future getImageFromGallery() async {
     final pickedFile =
@@ -60,12 +62,13 @@ class _AddTaskState extends State<AddTaskScreen> {
       );
     }
     return Scaffold(
+
       appBar: AppBar(
         title: Text("Add Task"),
         centerTitle: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SafeArea(
+        child: Padding(padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
@@ -104,6 +107,7 @@ class _AddTaskState extends State<AddTaskScreen> {
                           String date = DateFormat.yMd().format(pickedDate);
                           setState(() {
                             deadlineController.text = date;
+                            _deadline = pickedDate;
                           });
                         }
                       },
@@ -125,7 +129,7 @@ class _AddTaskState extends State<AddTaskScreen> {
                 onPressed: () {
                   String? errorMsg = formValidator();
                   if (errorMsg == null) {
-                    save();
+                    save(_deadline ?? DateTime.now());
                     Navigator.pop(context);
                   } else {
                     final snackBar = SnackBar(content: Text(errorMsg));
@@ -135,7 +139,7 @@ class _AddTaskState extends State<AddTaskScreen> {
                 child: Text("ADD TODO"))
           ],
         ),
-      ),
+      ),),
     );
   }
 
@@ -151,13 +155,13 @@ class _AddTaskState extends State<AddTaskScreen> {
     return errorMsg;
   }
 
-  void save() async {
+  void save(DateTime deadline) async {
     final task = TaskEntity(
         id: null,
         title: titleController.text,
         description: descController.text,
-        createAt: DateTime.now().microsecond,
-        deadline: DateTime.now().microsecond,
+        createAt: DateTime.now().microsecondsSinceEpoch,
+        deadline: deadline.microsecondsSinceEpoch,
         attachmentPath: _image?.path);
         print(task.toString());
     DatabaseManager.get().taskDao.insertTask(task);
