@@ -51,7 +51,7 @@ class TaskEntity {
   static const col_attachment_path = "attachment_path";
   static const col_status = "status";
 
-  final int? id;
+final int? id;
   final String title;
   final String description;
   final int deadline;
