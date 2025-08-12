@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
+import 'package:todo_list/database/task_status.dart';
 
 class AddTaskScreen extends StatefulWidget {
   @override
@@ -162,7 +163,8 @@ class _AddTaskState extends State<AddTaskScreen> {
         description: descController.text,
         createAt: DateTime.now().microsecondsSinceEpoch,
         deadline: deadline.microsecondsSinceEpoch,
-        attachmentPath: _image?.path);
+        attachmentPath: _image?.path,
+        status: TaskStatus.notStarted);
         print(task.toString());
     DatabaseManager.get().taskDao.insertTask(task);
   }

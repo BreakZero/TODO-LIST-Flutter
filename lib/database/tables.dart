@@ -14,19 +14,18 @@ class UserEntity {
   final String email;
   final int createAt;
 
-  UserEntity({
-    required this.uid,
-    required this.fullName,
-    required this.email,
-    required this.createAt
-  });
+  UserEntity(
+      {required this.uid,
+      required this.fullName,
+      required this.email,
+      required this.createAt});
 
-  UserEntity.fromMap(Map<String, dynamic> map): this(
-    uid: map[col_uid],
-    fullName: map[col_fullname],
-    email: map[col_email],
-    createAt: map[col_create_at]
-  );
+  UserEntity.fromMap(Map<String, dynamic> map)
+      : this(
+            uid: map[col_uid],
+            fullName: map[col_fullname],
+            email: map[col_email],
+            createAt: map[col_create_at]);
 
   Map<String, dynamic> toMap() {
     return {
@@ -38,9 +37,8 @@ class UserEntity {
   }
 
   @override
-  String toString() {
-    return "{_uid: $uid, full_name: $fullName, email: $email, create_at: $createAt}";
-  }
+  String toString() =>
+      "{_uid: $uid, full_name: $fullName, email: $email, create_at: $createAt}";
 }
 
 class TaskEntity {
@@ -59,7 +57,7 @@ class TaskEntity {
   final int deadline;
   final int createAt;
   final String? attachmentPath;
-  final int status; 
+  final int status;
 
   TaskEntity({
     required this.id,
@@ -71,15 +69,16 @@ class TaskEntity {
     this.status = TaskStatus.notStarted,
   });
 
-  TaskEntity.fromMap(Map<String, dynamic> map): this(
-    id: map[col_id],
-    title: map[col_title],
-    description: map[col_description],
-    createAt: map[col_create_at],
-    deadline: map[col_deadline],
-    attachmentPath: map[col_attachment_path],
-    status: map[col_status] ?? TaskStatus.notStarted,
-  );
+  TaskEntity.fromMap(Map<String, dynamic> map)
+      : this(
+          id: map[col_id],
+          title: map[col_title],
+          description: map[col_description],
+          createAt: map[col_create_at],
+          deadline: map[col_deadline],
+          attachmentPath: map[col_attachment_path],
+          status: map[col_status] ?? TaskStatus.notStarted,
+        );
 
   Map<String, dynamic> toMap() {
     return {
@@ -94,7 +93,6 @@ class TaskEntity {
   }
 
   @override
-  String toString() {
-    return "{title: $title, description: $description, deadline: $deadline, attachment_path: $attachmentPath}, status: $status";
-  }
+  String toString() =>
+      "{title: $title, description: $description, deadline: $deadline, attachment_path: $attachmentPath, status: $status}";
 }

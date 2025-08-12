@@ -1,0 +1,7 @@
+{
+  "@@locale": "zh",
+  "appTitle": "任务清单",
+  "greeting": "你好 {name}",
+  "tasksCount": "{count, plural, =0{没有任务} =1{1 个任务} other{{count} 个任务}}",
+  "dueDate": "截止日期：{date}"
+}

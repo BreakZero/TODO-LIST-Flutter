@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_list/common/extension.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
 import 'package:todo_list/feature/settings/settings.dart';
 import 'package:todo_list/feature/task_add/task_add.dart';
 import 'package:todo_list/feature/task_detail/task_detail.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -71,13 +73,10 @@ class _TaskItemView extends StatelessWidget {
   final TaskEntity task;
   const _TaskItemView({required this.task});
 
-  String formatDate(int microsecondsSinceEpoch) {
-    final date = DateTime.fromMicrosecondsSinceEpoch(microsecondsSinceEpoch);
-    return DateFormat('yyyy-MM-dd').format(date);
-  }
-
   @override
   Widget build(BuildContext context) {
+     final dateStr = DateFormat.yMMMd(context.l10n.localeName).format(DateTime.fromMicrosecondsSinceEpoch(task.createAt));
+
     return GestureDetector(
       onTap: () => {
         Navigator.push(context, MaterialPageRoute(builder: (context) => TaskDetailScreen(task_id: task.id,)))
@@ -100,7 +99,7 @@ class _TaskItemView extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Create At: ${formatDate(task.createAt)}', style: TextStyle(fontSize: 12, color: Colors.grey),),
+                  child: Text(context.l10n.dueDate(dateStr), style: TextStyle(fontSize: 12, color: Colors.grey),),
                 ),
               ],
             ),

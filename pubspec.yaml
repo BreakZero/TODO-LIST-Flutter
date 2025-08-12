@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   # localizations
   flutter_localizations:
     sdk: flutter
@@ -18,7 +19,7 @@ dependencies:
   flutter_svg: ^2.0.7
   image_picker: ^1.0.4
   path: ^1.8.3
-  provider: ^6.0.5
+  provider: ^6.1.5
   sqflite: ^2.3.0
 
 dev_dependencies:
@@ -28,5 +29,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
   assets:
     - assets/

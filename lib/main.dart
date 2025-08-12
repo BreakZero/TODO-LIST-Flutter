@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list/app/locale_notifier.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
 import 'package:todo_list/feature/home/home.dart';
 import 'package:todo_list/feature/sign_in/sign_in.dart';
+import 'package:todo_list/l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,45 +14,49 @@ void main() async {
   runApp(const MainApp());
 }
 
-class MainApp extends StatefulWidget {
+class MainApp extends StatelessWidget {
   const MainApp({super.key});
-  
-  @override
-  State<StatefulWidget> createState() {
-    return _MainState();
-  }
-}
-
-class _MainState extends State<MainApp> {
-
-  UserEntity? user;
-  @override
-  void initState() {
-    super.initState();
-    DatabaseManager.get().userDao.currentUser().then((value) => {
-      print(value.toString()),
-      setState(() {
-        user = value;
-      })
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    Widget homeWidget;
-    if (user != null) {
-      homeWidget = HomeScreen();
-    } else {
-      homeWidget = SignInScreen();
-    }
-    return MaterialApp(
-      title: 'Namer App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+    return ChangeNotifierProvider(
+      create: (_) => LocaleNotifier(),
+      child: Consumer<LocaleNotifier>(
+        builder: (context, localeNotifier, _) {
+          return FutureBuilder<UserEntity?>(
+            future: DatabaseManager.get().userDao.currentUser(),
+            builder: (context, snapshot) {
+              Widget homeWidget;
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                homeWidget = const Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                );
+              } else if (snapshot.hasData && snapshot.data != null) {
+                homeWidget = HomeScreen();
+              } else {
+                homeWidget = SignInScreen();
+              }
+              return MaterialApp(
+                title: 'TODO List',
+                debugShowCheckedModeBanner: false,
+                locale: localeNotifier.locale,
+                supportedLocales: const [Locale('en'), Locale('zh')],
+                localizationsDelegates: const [
+                  AppLocalizations.delegate, 
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                theme: ThemeData(
+                  useMaterial3: true,
+                  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+                ),
+                home: homeWidget,
+              );
+            },
+          );
+        },
       ),
-      home: homeWidget
     );
   }
 }

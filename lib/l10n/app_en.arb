@@ -1,0 +1,11 @@
+{
+  "@@locale": "en",
+  "appTitle": "Todo List",
+  "greeting": "Hello {name}",
+  "@greeting": {
+    "description": "Greet a user by name",
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "tasksCount": "{count, plural, =0{No tasks} =1{1 task} other{{count} tasks}}",
+  "dueDate": "Due on {date}"
+}
