@@ -6,7 +6,7 @@ import 'user_dao.dart';
 
 class DatabaseManager {
   static const _databaseName = "todo_list.db";
-  static const _databaseVersion = 3;
+  static const _databaseVersion = 4;
 
   static final DatabaseManager _databaseManager = DatabaseManager._internal();
 
@@ -58,9 +58,15 @@ class DatabaseManager {
     );
   }
 
-  void _onUpgrade(Database db, int oldVersion, int newVersion) {
+  Future _onUpgrade(Database db, int oldVersion, int newVersion) async{
     print("old version === $oldVersion");
     print("new version === $newVersion");
+    if (oldVersion < 4) {
+      // Add the status column if upgrading from a version before 4
+      await db.execute(
+        "ALTER TABLE tb_task ADD COLUMN status INTEGER NOT NULL DEFAULT 0;"
+      );
+    }
   }
 
   void close() {

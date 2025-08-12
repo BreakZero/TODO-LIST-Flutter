@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
 import 'package:todo_list/feature/settings/settings.dart';
@@ -70,6 +71,11 @@ class _TaskItemView extends StatelessWidget {
   final TaskEntity task;
   const _TaskItemView({required this.task});
 
+  String formatDate(int microsecondsSinceEpoch) {
+    final date = DateTime.fromMicrosecondsSinceEpoch(microsecondsSinceEpoch);
+    return DateFormat('yyyy-MM-dd').format(date);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -80,13 +86,13 @@ class _TaskItemView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Card(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(task.title),
+                  child: Text(task.title, style: TextStyle(fontSize: 16),),
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -94,7 +100,7 @@ class _TaskItemView extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(task.createAt.toString()),
+                  child: Text('Create At: ${formatDate(task.createAt)}', style: TextStyle(fontSize: 12, color: Colors.grey),),
                 ),
               ],
             ),
