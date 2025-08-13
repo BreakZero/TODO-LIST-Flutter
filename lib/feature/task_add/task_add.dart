@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_list/common/extension.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
 import 'package:todo_list/database/task_status.dart';
@@ -64,7 +65,7 @@ class _AddTaskState extends State<AddTaskScreen> {
     return Scaffold(
 
       appBar: AppBar(
-        title: Text("Add Task"),
+        title: Text(context.l10n.add_task_title),
         centerTitle: false,
       ),
       body: SafeArea(
@@ -74,7 +75,7 @@ class _AddTaskState extends State<AddTaskScreen> {
             TextField(
               controller: titleController,
               decoration: InputDecoration(
-                  hintText: "Title",
+                  hintText: context.l10n.hint_task_title,
                   border: OutlineInputBorder(),
                   contentPadding: EdgeInsets.all(8)),
             ),
@@ -84,7 +85,7 @@ class _AddTaskState extends State<AddTaskScreen> {
             TextField(
               controller: descController,
               decoration: InputDecoration(
-                  hintText: "Description",
+                  hintText: context.l10n.hint_task_description,
                   border: OutlineInputBorder(),
                   contentPadding: EdgeInsets.all(8.0)),
             ),
@@ -136,7 +137,7 @@ class _AddTaskState extends State<AddTaskScreen> {
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
                 },
-                child: Text("ADD TODO"))
+                child: Text(context.l10n.button_add_task))
           ],
         ),
       ),),
@@ -146,11 +147,11 @@ class _AddTaskState extends State<AddTaskScreen> {
   String? formValidator() {
     String? errorMsg;
     if (titleController.text.isEmpty) {
-      errorMsg = "title can not be null";
+      errorMsg = context.l10n.error_massage_not_be_null("Title");
     } else if (descController.text.isEmpty) {
-      errorMsg = "description can not be null";
+      errorMsg = context.l10n.error_massage_not_be_null("Description");
     } else if (deadlineController.text.isEmpty) {
-      errorMsg = "please choose the deadline";
+      errorMsg = context.l10n.error_massage_not_be_null("Deadline");
     }
     return errorMsg;
   }

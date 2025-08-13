@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:todo_list/common/extension.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
 
@@ -36,7 +37,7 @@ class TaskDetailScreen extends StatelessWidget {
               ),
             );
           } else {
-            return Center(child: Text("Error..."),);
+            return Center(child: Text(context.l10n.placeholder_error_text),);
           }
         } else {
           return Center(child: CircularProgressIndicator(),);
@@ -44,7 +45,7 @@ class TaskDetailScreen extends StatelessWidget {
       });
 
     return Scaffold(
-      appBar: AppBar(title: Text("Task Detail"), centerTitle: false,),
+      appBar: AppBar(title: Text(context.l10n.text_task_detail), centerTitle: false,),
       body: content,
     );
   }

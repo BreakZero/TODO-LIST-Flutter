@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:todo_list/common/extension.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/feature/sign_up/sign_up.dart';
 
@@ -28,7 +29,7 @@ class _SignInState extends State<SignInScreen> {
             TextField(
               controller: emailController,
               decoration: InputDecoration(
-                  hintText: "Email",
+                  hintText: context.l10n.hint_email,
                   border: OutlineInputBorder(),
                   contentPadding: EdgeInsets.all(8)),
             ),
@@ -38,7 +39,7 @@ class _SignInState extends State<SignInScreen> {
             TextField(
               controller: passwordController,
               decoration: InputDecoration(
-                  hintText: "Password",
+                  hintText: context.l10n.hint_password,
                   border: OutlineInputBorder(),
                   contentPadding: EdgeInsets.all(8)),
             ),
@@ -51,7 +52,7 @@ class _SignInState extends State<SignInScreen> {
                 printLocalUser();
               },
               style: FilledButton.styleFrom(minimumSize: Size.fromHeight(48)),
-              child: const Text('SIGN IN'),
+              child: Text(context.l10n.text_sign_in),
             ),
             SizedBox(
               height: 12,
@@ -62,7 +63,7 @@ class _SignInState extends State<SignInScreen> {
                   text: "Don't have an account? ",
                   style: TextStyle(color: Colors.black)),
               TextSpan(
-                  text: "Sign up",
+                  text: context.l10n.text_sign_up,
                   style: TextStyle(color: Colors.blue),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
@@ -83,11 +84,10 @@ class _SignInState extends State<SignInScreen> {
 
   void printLocalUser() {
     DatabaseManager.get().userDao.currentUser().then((value) => {
-      if (value == null) {
-        print("get null user")
-      } else {
-        print(value.toString())
-      }
-    });
+          if (value == null)
+            {print("get null user")}
+          else
+            {print(value.toString())}
+        });
   }
 }

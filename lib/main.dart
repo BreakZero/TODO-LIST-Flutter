@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list/app/locale_notifier.dart';
+import 'package:todo_list/common/extension.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
 import 'package:todo_list/feature/home/home.dart';
@@ -37,7 +38,7 @@ class MainApp extends StatelessWidget {
                 homeWidget = SignInScreen();
               }
               return MaterialApp(
-                title: 'TODO List',
+                title: context.l10n.appTitle,
                 debugShowCheckedModeBanner: false,
                 locale: localeNotifier.locale,
                 supportedLocales: const [Locale('en'), Locale('zh')],

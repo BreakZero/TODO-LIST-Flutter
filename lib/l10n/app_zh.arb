@@ -3,5 +3,33 @@
   "appTitle": "任务清单",
   "greeting": "你好 {name}",
   "tasksCount": "{count, plural, =0{没有任务} =1{1 个任务} other{{count} 个任务}}",
-  "dueDate": "截止日期：{date}"
+  "dueDate": "截止日期：{date}",
+  
+  "label_full_name": "全名",
+  "label_email": "邮箱",
+  "text_log_out": "退出登录",
+  "text_sign_in": "登录",
+  "text_sign_up": "注册",
+  "hint_email": "邮箱",
+  "hint_password": "密码",
+  "hint_confirm_password": "确认密码",
+  "tips_have_an_account": "已有账号？",
+
+  "add_task_title": "添加任务",
+  "hint_task_title": "输入标题",
+  "hint_task_description": "输入描述",
+  "hint_task_deadline": "选择截止日期",
+  "button_add_task": "创建任务",
+
+  "text_task_detail": "任务详情",
+
+  "placeholder_empty_text": "空...",
+  "placeholder_error_text": "出错...",
+
+  "error_massage_not_be_null": "{field} 不能为空",
+  "@error_massage_not_be_null": {
+    "description": "提示输入的字段不能为空",
+    "placeholders": {"field": {"type": "String"}}
+  },
+  "error_password_not_match": "两次输入的密码不一致"
 }

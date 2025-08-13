@@ -23,7 +23,7 @@ class TaskDao {
     return List.empty();
   }
 
-  Future<TaskEntity?> getTaskById(int? taskId) async {
+  Future<TaskEntity?> getTaskById(int taskId) async {
     var res = await _db.rawQuery("SELECT * FROM tb_task WHERE _id = $taskId;");
     if (res.isNotEmpty) {
       var task = res.map((e) => TaskEntity.fromMap(e)).first;

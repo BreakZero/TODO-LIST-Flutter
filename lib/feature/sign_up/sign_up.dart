@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:todo_list/common/extension.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
 
@@ -32,7 +33,7 @@ class _SignUpState extends State<SignUpScreen> {
             TextField(
               controller: emailController,
               decoration: InputDecoration(
-                  hintText: "Email",
+                  hintText: context.l10n.hint_email,
                   border: OutlineInputBorder(),
                   contentPadding: EdgeInsets.all(8)),
             ),
@@ -42,7 +43,7 @@ class _SignUpState extends State<SignUpScreen> {
             TextField(
               controller: fullnameController,
               decoration: InputDecoration(
-                  hintText: "Full Name",
+                  hintText: context.l10n.label_full_name,
                   border: OutlineInputBorder(),
                   contentPadding: EdgeInsets.all(8)),
             ),
@@ -52,7 +53,7 @@ class _SignUpState extends State<SignUpScreen> {
             TextField(
               controller: passwordController,
               decoration: InputDecoration(
-                  hintText: "Password",
+                  hintText: context.l10n.hint_password,
                   border: OutlineInputBorder(),
                   contentPadding: EdgeInsets.all(8)),
             ),
@@ -62,7 +63,7 @@ class _SignUpState extends State<SignUpScreen> {
             TextField(
               controller: confirmPassController,
               decoration: InputDecoration(
-                  hintText: "Confirm Password",
+                  hintText: context.l10n.hint_confirm_password,
                   border: OutlineInputBorder(),
                   contentPadding: EdgeInsets.all(8)),
             ),
@@ -90,7 +91,7 @@ class _SignUpState extends State<SignUpScreen> {
                 }
               },
               style: FilledButton.styleFrom(minimumSize: Size.fromHeight(48)),
-              child: const Text('SIGN UP'),
+              child: Text(context.l10n.text_sign_up),
             ),
             SizedBox(
               height: 12,
@@ -98,10 +99,10 @@ class _SignUpState extends State<SignUpScreen> {
             RichText(
                 text: TextSpan(children: [
               TextSpan(
-                  text: "Have an account?",
+                  text: context.l10n.tips_have_an_account,
                   style: TextStyle(color: Colors.black)),
               TextSpan(
-                  text: "Sign in",
+                  text: context.l10n.text_sign_in,
                   style: TextStyle(color: Colors.blue),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
@@ -127,13 +128,13 @@ class _SignUpState extends State<SignUpScreen> {
   String? formValidator() {
     String? errorMsg;
     if (emailController.text.isEmpty) {
-      errorMsg = "email can not be null";
+      errorMsg = context.l10n.error_massage_not_be_null(context.l10n.label_email);
     } else if (fullnameController.text.isEmpty) {
-      errorMsg = "full name can not be null";
+      errorMsg = context.l10n.error_massage_not_be_null(context.l10n.label_full_name);
     } else if (passwordController.text.isEmpty) {
-      errorMsg = "password can not be null";
+      errorMsg = context.l10n.error_massage_not_be_null(context.l10n.hint_password);
     } else if (passwordController.text != confirmPassController.text) {
-      errorMsg = "password is not match";
+      errorMsg = context.l10n.error_password_not_match;
     }
     return errorMsg;
   }

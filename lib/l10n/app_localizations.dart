@@ -118,6 +118,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Due on {date}'**
   String dueDate(Object date);
+
+  /// No description provided for @label_full_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get label_full_name;
+
+  /// No description provided for @label_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get label_email;
+
+  /// No description provided for @text_log_out.
+  ///
+  /// In en, this message translates to:
+  /// **'LOG OUT'**
+  String get text_log_out;
+
+  /// No description provided for @text_sign_in.
+  ///
+  /// In en, this message translates to:
+  /// **'SIGN IN'**
+  String get text_sign_in;
+
+  /// No description provided for @text_sign_up.
+  ///
+  /// In en, this message translates to:
+  /// **'SIGN UP'**
+  String get text_sign_up;
+
+  /// No description provided for @hint_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get hint_email;
+
+  /// No description provided for @hint_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get hint_password;
+
+  /// No description provided for @hint_confirm_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get hint_confirm_password;
+
+  /// No description provided for @tips_have_an_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Have an account?'**
+  String get tips_have_an_account;
+
+  /// No description provided for @add_task_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Task'**
+  String get add_task_title;
+
+  /// No description provided for @hint_task_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter title'**
+  String get hint_task_title;
+
+  /// No description provided for @hint_task_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter description'**
+  String get hint_task_description;
+
+  /// No description provided for @hint_task_deadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose deadline date'**
+  String get hint_task_deadline;
+
+  /// No description provided for @button_add_task.
+  ///
+  /// In en, this message translates to:
+  /// **'Add TODO'**
+  String get button_add_task;
+
+  /// No description provided for @text_task_detail.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Detail'**
+  String get text_task_detail;
+
+  /// No description provided for @placeholder_empty_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty...'**
+  String get placeholder_empty_text;
+
+  /// No description provided for @placeholder_error_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Error...'**
+  String get placeholder_error_text;
+
+  /// Tips enter field can not be null
+  ///
+  /// In en, this message translates to:
+  /// **'{field} can not be null'**
+  String error_massage_not_be_null(String field);
+
+  /// No description provided for @error_password_not_match.
+  ///
+  /// In en, this message translates to:
+  /// **'password not match'**
+  String get error_password_not_match;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

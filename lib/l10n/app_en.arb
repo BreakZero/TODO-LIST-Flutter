@@ -7,5 +7,33 @@
     "placeholders": {"name": {"type": "String"}}
   },
   "tasksCount": "{count, plural, =0{No tasks} =1{1 task} other{{count} tasks}}",
-  "dueDate": "Due on {date}"
+  "dueDate": "Due on {date}",
+
+  "label_full_name": "Full Name",
+  "label_email": "Email",
+  "text_log_out": "LOG OUT",
+  "text_sign_in": "SIGN IN",
+  "text_sign_up": "SIGN UP",
+  "hint_email": "Email",
+  "hint_password": "Password",
+  "hint_confirm_password": "Confirm Password",
+  "tips_have_an_account": "Have an account?",
+
+  "add_task_title": "Add Task",
+  "hint_task_title": "Enter title",
+  "hint_task_description": "Enter description",
+  "hint_task_deadline": "Choose deadline date",
+  "button_add_task": "Add TODO",
+
+  "text_task_detail": "Task Detail",
+
+  "placeholder_empty_text": "Empty...",
+  "placeholder_error_text": "Error...",
+
+  "error_massage_not_be_null": "{field} can not be null",
+  "@error_massage_not_be_null": {
+    "description": "Tips enter field can not be null",
+    "placeholders": {"field": {"type": "String"}}
+  },
+  "error_password_not_match": "password not match"
 }
