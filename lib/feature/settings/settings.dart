@@ -24,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError || snapshot.data == null) {
-            return const Center(child: Text("Error..."));
+            return Center(child: Text(context.l10n.placeholder_error_text));
           }
           final user = snapshot.data!;
           return Padding(
@@ -40,7 +40,7 @@ class SettingsScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(48),
                   ),
-                  child: const Text("LOG OUT"),
+                  child: Text(context.l10n.text_log_out),
                 ),
               ],
             ),
