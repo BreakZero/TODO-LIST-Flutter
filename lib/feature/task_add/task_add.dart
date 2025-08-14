@@ -63,84 +63,87 @@ class _AddTaskState extends State<AddTaskScreen> {
       );
     }
     return Scaffold(
-
       appBar: AppBar(
         title: Text(context.l10n.add_task_title),
         centerTitle: false,
       ),
       body: SafeArea(
-        child: Padding(padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: titleController,
-              decoration: InputDecoration(
-                  hintText: context.l10n.hint_task_title,
-                  border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.all(8)),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            TextField(
-              controller: descController,
-              decoration: InputDecoration(
-                  hintText: context.l10n.hint_task_description,
-                  border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.all(8.0)),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            TextField(
-              controller: deadlineController,
-              decoration: InputDecoration(
-                  enabled: true,
-                  suffixIcon: IconButton(
-                      onPressed: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime.utc(2033));
-                        if (pickedDate != null) {
-
-                          String date = DateFormat.yMd().format(pickedDate);
-                          setState(() {
-                            deadlineController.text = date;
-                            _deadline = pickedDate;
-                          });
-                        }
-                      },
-                      icon: Icon(
-                        Icons.calendar_month,
-                      )),
-                  border: OutlineInputBorder()),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Expanded(child: image),
-            SizedBox(
-              height: 8.0,
-            ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    minimumSize: Size.fromHeight(48.0)),
-                onPressed: () {
-                  String? errorMsg = formValidator();
-                  if (errorMsg == null) {
-                    save(_deadline ?? DateTime.now());
-                    Navigator.pop(context);
-                  } else {
-                    final snackBar = SnackBar(content: Text(errorMsg));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
-                },
-                child: Text(context.l10n.button_add_task))
-          ],
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                    hintText: context.l10n.hint_task_title,
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.all(8)),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              TextField(
+                controller: descController,
+                minLines: 3,
+                maxLines: null,
+                decoration: InputDecoration(
+                    hintText: context.l10n.hint_task_description,
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.all(8.0)),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              TextField(
+                controller: deadlineController,
+                readOnly: true,
+                decoration: InputDecoration(
+                    enabled: true,
+                    suffixIcon: IconButton(
+                        onPressed: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime.utc(2033));
+                          if (pickedDate != null) {
+                            String date = DateFormat.yMd().format(pickedDate);
+                            setState(() {
+                              deadlineController.text = date;
+                              _deadline = pickedDate;
+                            });
+                          }
+                        },
+                        icon: Icon(
+                          Icons.calendar_month,
+                        )),
+                    border: OutlineInputBorder()),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              Expanded(child: image),
+              SizedBox(
+                height: 8.0,
+              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size.fromHeight(48.0)),
+                  onPressed: () {
+                    String? errorMsg = formValidator();
+                    if (errorMsg == null) {
+                      save(_deadline ?? DateTime.now());
+                      Navigator.pop(context);
+                    } else {
+                      final snackBar = SnackBar(content: Text(errorMsg));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  },
+                  child: Text(context.l10n.button_add_task))
+            ],
+          ),
         ),
-      ),),
+      ),
     );
   }
 
@@ -165,7 +168,7 @@ class _AddTaskState extends State<AddTaskScreen> {
         deadline: deadline.microsecondsSinceEpoch,
         attachmentPath: _image?.path,
         status: TaskStatus.notStarted);
-        print(task.toString());
+    print(task.toString());
     DatabaseManager.get().taskDao.insertTask(task);
   }
 }

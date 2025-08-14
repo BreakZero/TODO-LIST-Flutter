@@ -106,7 +106,7 @@ class _TaskItemView extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(task.description),
+                  child: Text(task.description, maxLines: 3, overflow: TextOverflow.ellipsis,),
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
