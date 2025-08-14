@@ -1,73 +1,91 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:todo_list/common/extension.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
+import 'package:todo_list/feature/settings/language_switch.dart';
 
 class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    var content = FutureBuilder<UserEntity?>(
-      future: DatabaseManager.get().userDao.currentUser(),
-      builder:  (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError || snapshot.data == null) {
-             return Center(
-              child: Text("Error..."),
-             );
-          } else {
-            final user = snapshot.data as UserEntity;
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 32, left: 16, right: 16),
-              child: Column(
-                children: [
-                  Expanded(child: SvgPicture.asset("assets/settings_info.svg")),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text("Full Name"), Text(user.fullName)],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text("Email"), Text(user.email)],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text("Password"), Text("******")],
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(48)),
-                    child: Text("LOG OUT"),
-                  )
-                ],
-              ),
-            );
-          }
-        } else {
-          return CircularProgressIndicator();
-        }
-      },
-    );
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(
+        title: const Text(
           "TO DO LIST",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
         ),
       ),
-      body: content
+      body: FutureBuilder<UserEntity?>(
+        future: DatabaseManager.get().userDao.currentUser(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError || snapshot.data == null) {
+            return Center(child: Text(context.l10n.placeholder_error_text));
+          }
+          final user = snapshot.data!;
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 32, left: 16, right: 16),
+            child: Column(
+              children: [
+                Expanded(child: SvgPicture.asset("assets/settings_info.svg")),
+                _infoRow(context.l10n.label_full_name, user.fullName),
+                _infoRow(context.l10n.label_email, user.email),
+                const SizedBox(height: 16),
+                _actionRow(
+                  context.l10n.text_switch_language,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const LanguageSwitchScreen()),
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(48),
+                  ),
+                  child: Text(context.l10n.text_log_out),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _infoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label),
+          Text(value),
+        ],
+      ),
+    );
+  }
+
+  Widget _actionRow(String label, {required VoidCallback onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          children: [
+            Expanded(child: Text(label)),
+            const Icon(Icons.chevron_right, color: Colors.grey),
+          ],
+        ),
+      ),
     );
   }
 }

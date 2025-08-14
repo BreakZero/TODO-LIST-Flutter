@@ -8,17 +8,17 @@ class DatabaseManager {
   static const _databaseName = "todo_list.db";
   static const _databaseVersion = 4;
 
-  static final DatabaseManager _databaseManager = DatabaseManager._internal();
+  static final DatabaseManager _instance = DatabaseManager._internal();
 
   DatabaseManager._internal();
-  Database? _database;
 
+  Database? _database;
   late UserDao userDao;
   late TaskDao taskDao;
 
-  static DatabaseManager get() {
-    return _databaseManager;
-  }
+  static DatabaseManager get instance => _instance;
+
+  static DatabaseManager get() => _instance;
 
   Future init() async {
     final path = join(await getDatabasesPath(), _databaseName);
@@ -52,7 +52,8 @@ class DatabaseManager {
         description TEXT NOT NULL,
         deadline INTEGER NOT NULL,
         create_at INTEGER NOT NULL,
-        attachment_path TEXT
+        attachment_path TEXT,
+        status INTEGER NOT NULL DEFAULT 0
       );
       """
     );
