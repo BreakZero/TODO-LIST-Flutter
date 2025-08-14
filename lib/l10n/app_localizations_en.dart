@@ -34,6 +34,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get text_switch_language => 'Switch Language';
+
+  @override
   String get label_full_name => 'Full Name';
 
   @override

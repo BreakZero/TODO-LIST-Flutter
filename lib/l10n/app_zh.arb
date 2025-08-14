@@ -4,6 +4,8 @@
   "greeting": "你好 {name}",
   "tasksCount": "{count, plural, =0{没有任务} =1{1 个任务} other{{count} 个任务}}",
   "dueDate": "截止日期：{date}",
+
+    "text_switch_language": "切换语言",
   
   "label_full_name": "全名",
   "label_email": "邮箱",

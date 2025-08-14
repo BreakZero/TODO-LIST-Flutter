@@ -119,6 +119,12 @@ abstract class AppLocalizations {
   /// **'Due on {date}'**
   String dueDate(Object date);
 
+  /// No description provided for @text_switch_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch Language'**
+  String get text_switch_language;
+
   /// No description provided for @label_full_name.
   ///
   /// In en, this message translates to:

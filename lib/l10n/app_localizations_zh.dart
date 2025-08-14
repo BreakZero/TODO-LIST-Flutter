@@ -34,6 +34,9 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get text_switch_language => '切换语言';
+
+  @override
   String get label_full_name => '全名';
 
   @override

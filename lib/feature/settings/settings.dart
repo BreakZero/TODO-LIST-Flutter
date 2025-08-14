@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:todo_list/common/extension.dart';
 import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/database/tables.dart';
+import 'package:todo_list/feature/settings/language_switch.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -35,6 +36,16 @@ class SettingsScreen extends StatelessWidget {
                 _infoRow(context.l10n.label_full_name, user.fullName),
                 _infoRow(context.l10n.label_email, user.email),
                 const SizedBox(height: 16),
+                _actionRow(
+                  context.l10n.text_switch_language,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const LanguageSwitchScreen()),
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () => Navigator.pop(context),
                   style: ElevatedButton.styleFrom(
@@ -59,6 +70,21 @@ class SettingsScreen extends StatelessWidget {
           Text(label),
           Text(value),
         ],
+      ),
+    );
+  }
+
+  Widget _actionRow(String label, {required VoidCallback onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          children: [
+            Expanded(child: Text(label)),
+            const Icon(Icons.chevron_right, color: Colors.grey),
+          ],
+        ),
       ),
     );
   }
