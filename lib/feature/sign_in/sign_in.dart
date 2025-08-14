@@ -6,6 +6,8 @@ import 'package:todo_list/database/database_manager.dart';
 import 'package:todo_list/feature/sign_up/sign_up.dart';
 
 class SignInScreen extends StatefulWidget {
+  const SignInScreen({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _SignInState();
@@ -13,15 +15,16 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInState extends State<SignInScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     const String assetName = 'assets/logo.svg';
     final logoImage = SvgPicture.asset(assetName, semanticsLabel: "Logo");
     return Scaffold(
-      body: Padding(
+        body: SafeArea(
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
@@ -33,9 +36,7 @@ class _SignInState extends State<SignInScreen> {
                   border: OutlineInputBorder(),
                   contentPadding: EdgeInsets.all(8)),
             ),
-            SizedBox(
-              height: 12,
-            ),
+            const SizedBox(height: 12),
             TextField(
               controller: passwordController,
               decoration: InputDecoration(
@@ -79,7 +80,7 @@ class _SignInState extends State<SignInScreen> {
           ],
         ),
       ),
-    );
+    ));
   }
 
   void printLocalUser() {
