@@ -1,4 +1,3 @@
-
 import 'package:sqflite/sqflite.dart';
 import 'package:todo_list/database/tables.dart';
 
@@ -8,27 +7,35 @@ class TaskDao {
   const TaskDao(this._db);
 
   Future insertTask(TaskEntity task) async {
-    _db.transaction((txn) async => {
-      await txn.insert(TaskEntity.table_name, task.toMap())
-    });
+    await _db.insert(TaskEntity.table_name, task.toMap());
   }
 
   Future<List<TaskEntity>> allTasks() async {
-    var result = await _db.rawQuery("SELECT * FROM tb_task;");
+    final result = await _db.query(TaskEntity.table_name);
     if (result.isNotEmpty) {
       var tasks = result.map((e) => TaskEntity.fromMap(e)).toList();
-      print(tasks);
       return tasks;
     }
-    return List.empty();
+    return [];
   }
 
   Future<TaskEntity?> getTaskById(int taskId) async {
-    var res = await _db.rawQuery("SELECT * FROM tb_task WHERE _id = $taskId;");
+    final res = await _db.query(
+      TaskEntity.table_name,
+      where: "${TaskEntity.col_id} = ?",
+      whereArgs: [taskId],
+    );
     if (res.isNotEmpty) {
-      var task = res.map((e) => TaskEntity.fromMap(e)).first;
-      return task;
+      return TaskEntity.fromMap(res.first);
     }
     return null;
+  }
+
+  Future<int> deleteTask(int taskId) async {
+    return await _db.delete(
+      TaskEntity.table_name,
+      where: '${TaskEntity.col_id} = ?',
+      whereArgs: [taskId],
+    );
   }
 }

@@ -19,6 +19,7 @@ class LanguageSwitchScreen extends StatelessWidget {
           RadioListTile<String>(
             title: const Text('English'),
             value: 'en',
+            selected: currentLocale == 'en',
             groupValue: currentLocale,
             onChanged: (value) {
               localeNotifier.setLocale(const Locale('en'));
@@ -27,6 +28,7 @@ class LanguageSwitchScreen extends StatelessWidget {
           RadioListTile<String>(
             title: const Text('简体中文'),
             value: 'zh',
+            selected: currentLocale == 'zh',
             groupValue: currentLocale,
             onChanged: (value) {
               localeNotifier.setLocale(const Locale('zh'));

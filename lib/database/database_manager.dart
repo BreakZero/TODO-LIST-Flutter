@@ -22,30 +22,23 @@ class DatabaseManager {
 
   Future init() async {
     final path = join(await getDatabasesPath(), _databaseName);
-    final db = await openDatabase(
-      path,
-      version: _databaseVersion,
-      onCreate: _onCreate,
-      onUpgrade: _onUpgrade
-    );
+    final db = await openDatabase(path,
+        version: _databaseVersion, onCreate: _onCreate, onUpgrade: _onUpgrade);
     userDao = UserDao(db);
     taskDao = TaskDao(db);
     _database = db;
   }
 
   Future _onCreate(Database db, int version) async {
-    db.execute(
-      """
+    db.execute("""
       CREATE TABLE tb_local_user(
         _uid INTEGER PRIMARY KEY AUTOINCREMENT,
         full_name TEXT NOT NULL,
         email TEXT NOT NULL,
         create_at INTEGER NOT NULL
       );
-      """
-    );
-    db.execute(
-      """
+      """);
+    db.execute("""
       CREATE TABLE tb_task(
         _id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
@@ -55,18 +48,14 @@ class DatabaseManager {
         attachment_path TEXT,
         status INTEGER NOT NULL DEFAULT 0
       );
-      """
-    );
+      """);
   }
 
-  Future _onUpgrade(Database db, int oldVersion, int newVersion) async{
-    print("old version === $oldVersion");
-    print("new version === $newVersion");
+  Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 4) {
       // Add the status column if upgrading from a version before 4
       await db.execute(
-        "ALTER TABLE tb_task ADD COLUMN status INTEGER NOT NULL DEFAULT 0;"
-      );
+          "ALTER TABLE tb_task ADD COLUMN status INTEGER NOT NULL DEFAULT 0;");
     }
   }
 
